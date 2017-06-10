@@ -1,2 +1,3 @@
-# script
-Cross platform library for defining and validating compliane with writing systems
+# `script`
+
+Cross platform library for defining and validating compliance with writing systems
