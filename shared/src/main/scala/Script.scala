@@ -17,12 +17,18 @@ import js.annotation.JSExport
   editorial: Set[Int])  {
 
 
+  /** Set of all valid code points in this script.
+  */
+  def valid: Set[Int] = {
+    alphabetic ++ numeric ++ punctuation ++ editorial
+  }
+
   /** True if codepoint is alphabetic.
   *
   * @param codepoint Codepoint to test.
   */
   def isAlphabetic(codepoint: Int)= {
-    alphabetic.contains(codepoint)
+    alphabetic contains codepoint
   }
 
 
@@ -41,7 +47,16 @@ import js.annotation.JSExport
   * @param codepoint Codepoint to test.
   */
   def isNumeric(codepoint: Int)= {
-    numeric.contains(codepoint)
+    numeric contains codepoint
+  }
+
+  /** True if all codepoints in s are numeric.
+  *
+  * @param s String to test.
+  */
+  def isNumeric(s: String)= {
+    val codepointSet = Script.codepointsForString(s).toSet
+    codepointSet subsetOf numeric
   }
 
   /** True if codepoint is punctuation.
@@ -49,7 +64,16 @@ import js.annotation.JSExport
   * @param codepoint Codepoint to test.
   */
   def isPunctuation(codepoint: Int)= {
-    punctuation.contains(codepoint)
+    punctuation contains codepoint
+  }
+
+  /** True if all codepoints in s are punctuation.
+  *
+  * @param s String to test.
+  */
+  def isPunctuation(s: String)= {
+    val codepointSet = Script.codepointsForString(s).toSet
+    codepointSet subsetOf punctuation
   }
 
   /** True if codepoint is editorial.
@@ -57,7 +81,35 @@ import js.annotation.JSExport
   * @param codepoint Codepoint to test.
   */
   def isEditorial(codepoint: Int)= {
-    editorial.contains(codepoint)
+    editorial contains codepoint
+  }
+
+  /** True if all codepoints in s are editorial.
+  *
+  * @param s String to test.
+  */
+  def isEditorial(s: String)= {
+    val codepointSet = Script.codepointsForString(s).toSet
+    codepointSet subsetOf editorial
+  }
+
+
+
+  /** True if all codepoints in s are editorial.
+  *
+  * @param codepoint Codepoint to test.
+  */
+  def isValid(codepoint: Int)= {
+    valid contains codepoint
+  }
+
+  /** True if all codepoints in s are editorial.
+  *
+  * @param s String to test.
+  */
+  def isValid(s: String)= {
+    val codepointSet = Script.codepointsForString(s).toSet
+    codepointSet subsetOf valid
   }
 }
 
@@ -79,16 +131,20 @@ object Script {
   }
 }
 
+
+
+
   def apply(urn: Cite2Urn,
   label: String,
-  alphabetic: String,
-  numeric: String = "",
-  punctuation: String = "",
-  editorial: String = ""): Script = {
-    val alpha = Set[Int]()
-    val num = Set[Int]()
-    val punct = Set[Int]()
-    val editor = Set[Int]()
+  alphabetic: List[String],
+  numeric: List[String] = List[String](),
+  punctuation: List[String] = List[String](),
+  editorial: List[String] = List[String]()): Script = {
+
+    val alpha = codepointsForString(alphabetic.mkString).toSet
+    val num = codepointsForString(numeric.mkString).toSet
+    val punct =codepointsForString(punctuation.mkString).toSet
+    val editor =codepointsForString(editorial.mkString).toSet
     Script(urn,label,alpha,num,punct,editor)
   }
 }
