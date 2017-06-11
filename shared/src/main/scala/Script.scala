@@ -8,9 +8,7 @@ import js.annotation.JSExport
 
 
 
-@JSExport  case class Script (
-  urn: Cite2Urn,
-  label: String,
+@JSExport  case class Script (urn: Cite2Urn,label: String,
   alphabetic: Set[Int],
   numeric: Set[Int],
   punctuation: Set[Int],
@@ -133,7 +131,8 @@ object Script {
 
 
 
-
+  /** Create Script from lists of strings.
+  */
   def apply(urn: Cite2Urn,
   label: String,
   alphabetic: List[String],
