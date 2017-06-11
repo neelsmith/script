@@ -29,5 +29,23 @@ class ScriptSpec extends FlatSpec {
     assert(script.alphabetic == expected)
   }
 
+  it should "identify all numeric codepoints" in {
+    val script = Script(urn,label,alpha,num,punct,ed)
+    val expected  = Set(49, 50, 51)
+    assert(script.numeric == expected)
+ }
+
+
+  it should "identify all punctuation codepoints" in {
+    val script = Script(urn,label,alpha,num,punct,ed)
+    val expected = Set(46, 44, 63)
+    assert(script.punctuation == expected)
+  }
+
+  it should "identify all editorial codepoints" in {
+   val script = Script(urn,label,alpha,num,punct,ed)
+   val expected  = Set(91, 93)
+   assert(script.editorial == expected)
+  }
 
 }
